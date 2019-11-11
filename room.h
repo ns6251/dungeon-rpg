@@ -9,7 +9,7 @@
 
 typedef struct __room Room;
 
-struct room {
+struct __room {
   char name[256];
   bool isVisited;
   Enemy* enemy;
