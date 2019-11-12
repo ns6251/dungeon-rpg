@@ -19,6 +19,6 @@ struct __room {
 
 extern Room rooms[ROOM_NUM];
 
-void initDungeon()
+void initDungeon();
 
 #endif
