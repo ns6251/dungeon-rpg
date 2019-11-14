@@ -6,14 +6,15 @@
 ## Requirement
 
 - gcc or others c compiler
+- make
 
 ## Usage
 
 example:
 
 ```shell
-git clone https://github.com/ns6251/dungeon-rpg.git'
+git clone 'https://github.com/ns6251/dungeon-rpg.git'
 cd dungeon-rpg
-cc *.c
-./a.out
+make
+./main.out
 ```
