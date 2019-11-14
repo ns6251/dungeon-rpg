@@ -10,8 +10,14 @@ typedef struct __player {
   int hp;
   int minAtk;
   int maxAtk;
+  Dagger *dagger;
   Room* cuurRoom;
   Storage* storage;
 } Player;
+
+extern Player player;
+
+void initPlayer();
+void move();
 
 #endif

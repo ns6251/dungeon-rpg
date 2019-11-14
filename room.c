@@ -3,4 +3,4 @@
 
 Room rooms[ROOM_NUM];
 
-void initDungeon() {}
+void initRoom() {}

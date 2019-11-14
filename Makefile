@@ -1,5 +1,5 @@
 PROGRAM = main.out
-OBJS = battle.o item.o main.o player.o room.o turn.o
+OBJS = battle.o item.o main.o player.o room.o turn.o dungeon.o
 
 CC = gcc
 CFLAGS = -std=c11 -Wpedantic -W -Wall
@@ -23,3 +23,4 @@ main.o:
 player.o: player.h room.h item.h
 room.o: room.h
 turn.o: 
+dungeon.o: dungeon.h
