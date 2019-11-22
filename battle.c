@@ -34,7 +34,7 @@ static int basicDamage(int min, int max) {
 }
 
 static bool isCritical(double odds) {
-  return (odds <= ((double)rand() / RAND_MAX));
+  return (odds >= ((double)rand() / RAND_MAX));
 }
 
 static int daggerRate(Dagger* d) {
