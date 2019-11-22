@@ -1,18 +1,23 @@
+/**
+ * @file player.h
+ * @author C0117230
+ */
+
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "room.h"
 #include "item.h"
+#include "room.h"
 
 typedef struct __player {
   char name[256];
-  int maxHp;
   int hp;
+  int maxHp;
   int minAtk;
   int maxAtk;
-  Dagger *dagger;
-  Room* cuurRoom;
-  Storage* storage;
+  int storage[ItemTypeLen];
+  Dagger* dagger;
+  Room* curRoom;
 } Player;
 
 extern Player player;

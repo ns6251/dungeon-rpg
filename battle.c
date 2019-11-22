@@ -1,17 +1,31 @@
+/**
+ * @file battle.c
+ * @author C0117230
+ */
+
+#include "battle.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include "battle.h"
+#include <string.h>
+#include <time.h>
 #include "player.h"
 
-static const double CRITICAL_RATE = 2.0;
-extern Player player;
+static const double CRITICAL_RATE = 2.0;  // 共通クリティカル倍率
 
-static Enemy e = {Winp, "winp1", 10, 10, 1, 3};
-
-Enemy* initEnemy() {
-  // ! おためし
-  return &e;
+Enemy* initEnemies() {
+  // * temporarily
+  Enemy* e = (Enemy*)calloc(1, sizeof(Enemy));
+  strcpy(e->name, "Winp1");
+  e->type = Winp;
+  e->hp = e->maxHp = 10;
+  e->minAtk = 1;
+  e->maxAtk = 3;
+#ifndef _srand_
+#define _srand_
+  srand(time(NULL));
+#endif
+  return e;
 }
 
 static int basicDamage(int min, int max) {
@@ -24,10 +38,11 @@ static bool isCritical(double odds) {
 }
 
 static int daggerRate(Dagger* d) {
+  int rate = 1;
   if (d == NULL) {
-    return 1;
+    return rate;
   }
-  int rate = d->rate;
+  rate = d->rate;
   if (isCritical(d->criticalOdds)) {
     rate *= CRITICAL_RATE;
   }
@@ -39,7 +54,7 @@ EnemyType battle(Enemy* e) {
     printf("%s: %d/%d\t%s: %d/%d\n", player.name, player.hp, player.maxHp,
            e->name, e->hp, e->maxHp);
     // プレイヤーの攻撃
-    int dmg = basicDamage(player.minAtk, player.maxAtk);
+    int dmg = (int)basicDamage(player.minAtk, player.maxAtk);
     dmg *= daggerRate(player.dagger);
     e->hp -= dmg;
     printf("%sの攻撃！%sに%dのダメージ！\n", player.name, e->name, dmg);

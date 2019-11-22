@@ -1,3 +1,8 @@
+/**
+ * @file battle.h
+ * @author C0117230
+ */
+
 #ifndef _BATTLE_H_
 #define _BATTLE_H_
 
@@ -12,7 +17,7 @@ typedef struct {
   int maxAtk;
 } Enemy;
 
-Enemy* initEnemy();
+Enemy* initEnemies();
 
 EnemyType battle();
 
