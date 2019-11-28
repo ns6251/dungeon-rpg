@@ -16,6 +16,7 @@ int main(void) {
   printRule();
 
   while (gamestate == Still) {
+    usePotion();
     printDungeonInfo();
     printf("now: \"%s\"\n", player.curRoom->name);
     move();

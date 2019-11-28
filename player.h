@@ -24,5 +24,6 @@ extern Player player;
 
 void initPlayer();
 void move();
+void usePotion();
 
 #endif

@@ -40,11 +40,33 @@ void move() {
     scanf("%4s%*[^\n]%*c", input);
     int index = atoi(input) - 1;
     if (index < 0 || maxindex < index) {
-      printf("正しい値を入力してね!\n");
+      printf("正しい値を入力してね\n");
       continue;
     }
     // playerの居る部屋を更新
     player.curRoom = player.curRoom->neighbors[index];
     break;
+  }
+}
+
+void usePotion() {
+  if (player.storage[Potion] <= 0 || player.hp == player.maxHp) {
+    return;
+  }
+  char input[4];
+  while (true) {
+    printf("ポーションを使用しますか？[y/n]: ");
+    scanf("%4s%*[^\n]%*c", input);
+    if (strcmp((input), "y") == 0) {
+      player.hp = player.maxHp;
+      player.storage[Potion]--;
+      printf("%sはポーションを使ってHPは全快した！\n", player.name);
+      break;
+    } else if (strcmp(input, "n") == 0) {
+      printf("%sはポーションを温存することにした。\n", player.name);
+      break;
+    } else {
+      printf("正しい値を入力してね\n");
+    }
   }
 }
