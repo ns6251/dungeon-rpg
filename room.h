@@ -25,8 +25,6 @@ struct __room {
   GameState (*event)(void);
 };
 
-extern Room* rooms;
-
-void initRoom();
+Room* initRoom();
 
 #endif

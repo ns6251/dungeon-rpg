@@ -12,6 +12,7 @@
 static Enemy* enemies;
 static Dagger* dagger;
 static Item* items;
+static Room* rooms;
 
 /**
  * @author C0117230
@@ -20,7 +21,7 @@ GameState initDungeon() {
   enemies = initEnemies();
   dagger = initDagger();
   items = initItems();
-  initRoom();
+  rooms = initRoom();
   return Still;
 }
 

@@ -19,8 +19,6 @@ void initPlayer() {
   player.hp = player.maxHp = 30;
   player.minAtk = 1;
   player.maxAtk = 3;
-  player.curRoom = &rooms[0];
-  player.curRoom->isVisited = true;
 }
 
 /**

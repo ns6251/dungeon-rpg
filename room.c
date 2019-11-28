@@ -10,8 +10,6 @@
 #include "item.h"
 #include "player.h"
 
-Room* rooms;
-
 static GameState noEvent(void) {
   printf("この部屋には何もないようだ……\n");
   return Still;
@@ -57,7 +55,7 @@ static GameState encountEnemy(void) {
  * @brief Roomの隣接関係を作成する
  * @author
  */
-static void connectRoom() {
+static void connectRoom(Room* rooms) {
   // 1に隣接する部屋
   rooms[0].neighbors = (Room**)calloc(2, sizeof(Room*));
   rooms[0].neighbors[0] = &rooms[1];
@@ -186,7 +184,7 @@ static void connectRoom() {
   rooms[24].neighbors[0] = &rooms[23];
 }
 
-static void setEvent() {
+static void setEvent(Room* rooms) {
   for (int i = 0; i < ROOM_NUM; i++) {
     rooms[i].event = noEvent;
   }
@@ -199,8 +197,8 @@ static void setEvent() {
  * @brief Roomを作成する
  * @author
  */
-void initRoom() {
-  rooms = (Room*)calloc(ROOM_NUM, sizeof(Room));
+Room* initRoom() {
+  Room* rooms = (Room*)calloc(ROOM_NUM, sizeof(Room));
   char* namelist[ROOM_NUM] = {"Room1",  "Room2",  "Room3",  "Room4",  "Room5",
                               "Room6",  "Room7",  "Room8",  "Room9",  "Room10",
                               "Room11", "Room12", "Room13", "Room14", "Room15",
@@ -210,8 +208,8 @@ void initRoom() {
   for (int i = 0; i < ROOM_NUM; i++) {
     strcpy(rooms[i].name, namelist[i]);
   }
-  connectRoom();
-  setEvent();
+  connectRoom(rooms);
+  setEvent(rooms);
   // 雑魚
   // rooms[2].enemy = &enemy;
   // rooms[5].enemy = &enemy;
@@ -238,4 +236,7 @@ void initRoom() {
   // rooms[10].item = &items[Potion];
   // rooms[18].item = &items[Potion];
   // rooms[21].item = &items[Potion];
+  player.curRoom = rooms;
+  player.curRoom->isVisited = true;
+  return rooms;
 }

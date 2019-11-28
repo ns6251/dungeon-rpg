@@ -5,6 +5,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "dungeon.h"
 #include "player.h"
 #include "turn.h"
@@ -27,6 +28,10 @@ int main(void) {
       break;
     case GameClear:
       printf("Game Clear!\n");
+      break;
+    default:
+      fprintf(stderr, "このメッセージが表示されるのはおかしい\n");
+      exit(EXIT_FAILURE);
       break;
   }
   printScore();
