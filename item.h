@@ -1,24 +1,26 @@
+/**
+ * @file item.h
+ * @author C0117230
+ */
+
 #ifndef _ITEM_H_
 #define _ITEM_H_
 
-typedef enum { Potion, SJewel, MJewel, LJewel, Weapon, ItemTypeLen } ItemType;
+typedef enum { Potion, SJewel, MJewel, LJewel, ItemTypeLen } ItemType;
 
 typedef struct __item {
-  ItemType id;
+  ItemType type;
   char name[256];
   int score;
 } Item;
 
 typedef struct __dagger {
-  ItemType id;
   char name[256];
-  int score;
-  double criticalOdds;
-  int rate;
+  double criticalOdds;  //クリティカル率
+  int rate;             // 武器倍率
 } Dagger;
 
-typedef struct __storage {
-  int list[ItemTypeLen];
-} Storage;
+Item* initItems();
+Dagger* initDagger();
 
 #endif
