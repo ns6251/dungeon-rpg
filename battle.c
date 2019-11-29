@@ -14,17 +14,21 @@
 static const double CRITICAL_RATE = 2.0;  // 共通クリティカル倍率
 
 Enemy* initEnemies() {
-  // * temporarily
-  Enemy* e = (Enemy*)calloc(1, sizeof(Enemy));
-  strcpy(e->name, "Winp1");
-  e->type = Winp;
-  e->hp = e->maxHp = 10;
-  e->minAtk = 1;
-  e->maxAtk = 3;
-#ifndef _srand_
-#define _srand_
-  srand(time(NULL));
-#endif
+  const int e_num = 7;
+  Enemy* e = (Enemy*)calloc(e_num, sizeof(Enemy));
+
+  Enemy zako = {Winp, "zako", 10, 10, 1, 3};
+  Enemy strong_Zako = {Winp, "s-zako", 15, 15, 2, 4};
+  Enemy mid = {MidBoss, "mid", 30, 30, 1, 6};
+  Enemy boss = {Boss, "Boss", 50, 50, 3, 6};
+
+  e[0] = zako;
+  e[1] = zako;
+  e[2] = strong_Zako;
+  e[3] = strong_Zako;
+  e[4] = strong_Zako;
+  e[5] = mid;
+  e[6] = boss;
   return e;
 }
 
@@ -50,6 +54,10 @@ static int daggerRate(Dagger* d) {
 }
 
 EnemyType battle(Enemy* e) {
+#ifndef _srand_
+#define _srand_
+  srand(time(NULL));
+#endif
   while (true) {
     printf("%s: %d/%d\t%s: %d/%d\n", player.name, player.hp, player.maxHp,
            e->name, e->hp, e->maxHp);

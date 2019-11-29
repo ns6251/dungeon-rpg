@@ -18,22 +18,24 @@ int main(void) {
   while (gamestate == Still) {
     usePotion();
     printDungeonInfo();
-    printf("now: \"%s\"\n", player.curRoom->name);
     move();
-    gamestate = player.curRoom->event();
+    if (player.curRoom->isVisited == false) {
+      gamestate = player.curRoom->event();
+      player.curRoom->isVisited = true;
+    }
     addTurn();
   }
   switch (gamestate) {
     case GameOver:
-      printf("Game Over!\n");
+      printf("%sは死んでしまった…\n\nGame Over!\n", player.name);
       break;
     case GameClear:
       printf("Game Clear!\n");
+      printScore();
       break;
     default:
       fprintf(stderr, "このメッセージが表示されるのはおかしい\n");
       exit(EXIT_FAILURE);
       break;
   }
-  printScore();
 }

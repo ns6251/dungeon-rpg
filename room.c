@@ -10,6 +10,8 @@
 #include "item.h"
 #include "player.h"
 
+static Item* items_g;
+
 static GameState noEvent(void) {
   printf("この部屋には何もないようだ……\n");
   return Still;
@@ -17,7 +19,7 @@ static GameState noEvent(void) {
 
 static GameState findItem(void) {
   Item* item = player.curRoom->item;
-  printf("%sを拾った！", item->name);
+  printf("%sを拾った！\n", item->name);
   player.storage[item->type]++;
   return Still;
 }
@@ -25,8 +27,21 @@ static GameState findItem(void) {
 static GameState findDagger(void) {
   printf("%sを見つけた！\n", player.curRoom->dagger->name);
   player.dagger = player.curRoom->dagger;
-  printf("%sは%sを装備した\n", player.name, player.dagger->name);
+  printf("%sは%sを装備した( ･´ｰ･｀)ﾄﾞﾔｰ\n", player.name, player.dagger->name);
   return Still;
+}
+
+static bool isDrop(double odds) {
+  return (odds >= ((double)rand() / RAND_MAX));
+}
+
+static void dropItem(ItemType it, double odds) {
+  if (!isDrop(odds)) {
+    printf("アイテムをドロップしなかった……(´・ω・｀)ｼｮﾎﾞｰﾝ\n");
+    return;
+  }
+  printf("%sがドロップした!(⌒∇⌒)ﾔｯﾀｰ\n", items_g[it].name);
+  player.storage[it]++;
 }
 
 static GameState encountEnemy(void) {
@@ -35,13 +50,16 @@ static GameState encountEnemy(void) {
   EnemyType et = battle(enemy);
   switch (et) {
     case Winp:
-      printf("宝（小）が確率でドロップ（予定）");
+      // printf("宝（小）がドロップ\n");
+      dropItem(SJewel, 0.5);
       return Still;
     case MidBoss:
-      printf("宝（中）がドロップ（予定）");
+      // printf("宝（中）がドロップ\n");
+      dropItem(MJewel, 1.0);
       return Still;
     case Boss:
-      printf("宝（大）がドロップ（予定）");
+      // printf("宝（大）がドロップ\n");
+      dropItem(LJewel, 1.0);
       return GameClear;
     case Lose:
       return GameOver;
@@ -49,6 +67,28 @@ static GameState encountEnemy(void) {
       break;
   }
   exit(EXIT_FAILURE);
+}
+
+static GameState spring(void) {
+  int s = 25;
+  printf("%sは泉を発見した！\n", player.name);
+  player.maxHp += s;
+  player.hp += s;
+  printf("%sは泉を浴びて、体力が%d回復して、体力の最大値が%d上昇した！\n",
+         player.name, s, s);
+  return Still;
+}
+
+static GameState trap(void) {
+  const int dmg = 10;
+  printf("%sは、トラップに引っかかってしまった。", player.name);
+  printf("%dのダメージ！", dmg);
+  player.hp -= dmg;
+  if (player.hp <= 0) {
+    return GameOver;
+  } else {
+    return Still;
+  }
 }
 
 /**
@@ -94,7 +134,7 @@ static void connectRoom(Room* rooms) {
 
   // 8に隣接する部屋
   rooms[7].neighbors = (Room**)calloc(2, sizeof(Room*));
-  rooms[7].neighbors[0] = &rooms[3];
+  rooms[7].neighbors[0] = &rooms[5];
 
   // 9に隣接する部屋
   rooms[8].neighbors = (Room**)calloc(4, sizeof(Room*));
@@ -118,8 +158,8 @@ static void connectRoom(Room* rooms) {
 
   // 13に隣接する部屋
   rooms[12].neighbors = (Room**)calloc(4, sizeof(Room*));
-  rooms[12].neighbors[0] = &rooms[6];
-  rooms[12].neighbors[1] = &rooms[10];
+  rooms[12].neighbors[0] = &rooms[8];
+  rooms[12].neighbors[1] = &rooms[11];
   rooms[12].neighbors[2] = &rooms[13];
 
   // 14に隣接する部屋
@@ -139,7 +179,7 @@ static void connectRoom(Room* rooms) {
   rooms[15].neighbors[2] = &rooms[20];
 
   // 17に隣接する部屋
-  rooms[16].neighbors = (Room**)calloc(4, sizeof(Room*));
+  rooms[16].neighbors = (Room**)calloc(3, sizeof(Room*));
   rooms[16].neighbors[0] = &rooms[18];
   rooms[16].neighbors[1] = &rooms[14];
 
@@ -189,7 +229,26 @@ static void setEvent(Room* rooms) {
     rooms[i].event = noEvent;
   }
   // * test
-  rooms[1].event = findDagger;
+  rooms[2].event = encountEnemy;
+  rooms[3].event = findItem;
+  rooms[5].event = encountEnemy;
+  rooms[6].event = trap;
+  rooms[7].event = findItem;
+  rooms[9].event = findDagger;
+  rooms[10].event = findItem;
+  rooms[13].event = encountEnemy;
+  rooms[14].event = findItem;
+  rooms[15].event = encountEnemy;
+  rooms[16].event = encountEnemy;
+  rooms[17].event = findItem;
+  rooms[18].event = findItem;
+  rooms[19].event = trap;
+  rooms[20].event = findItem;
+  rooms[21].event = findItem;
+
+  rooms[22].event = spring;
+  rooms[23].event = encountEnemy;
+
   rooms[24].event = encountEnemy;
 }
 
@@ -199,44 +258,48 @@ static void setEvent(Room* rooms) {
  */
 Room* initRoom() {
   Room* rooms = (Room*)calloc(ROOM_NUM, sizeof(Room));
-  char* namelist[ROOM_NUM] = {"Room1",  "Room2",  "Room3",  "Room4",  "Room5",
-                              "Room6",  "Room7",  "Room8",  "Room9",  "Room10",
-                              "Room11", "Room12", "Room13", "Room14", "Room15",
-                              "Room16", "Room17", "Room18", "Room19", "Room20",
-                              "Room21", "Room22", "Room23", "Room24", "Room25"};
-
+  char* namelist[ROOM_NUM] = {"Room A", "Room B", "Room C", "Room D", "Room E",
+                              "Room F", "Room G", "Room H", "Room I", "Room J",
+                              "Room K", "Room L", "Room M", "Room N", "Room O",
+                              "Room P", "Room Q", "Room R", "Room S", "Room T",
+                              "Room U", "Room V", "Room W", "Room X", "Room Y"};
   for (int i = 0; i < ROOM_NUM; i++) {
     strcpy(rooms[i].name, namelist[i]);
+    rooms[i].isVisited = false;
   }
   connectRoom(rooms);
   setEvent(rooms);
-  // 雑魚
-  // rooms[2].enemy = &enemy;
-  // rooms[5].enemy = &enemy;
-  // rooms[15].enemy = &enemy;
-  // rooms[16].enemy = &enemy;
-  // 中ボス
-  // rooms[13].enemy = &enemy;
-  // rooms[24].enemy = &enemy;
-  // ボス
-  // rooms[25].enemy = &enemy;
-
-  // rooms[3].item = &items[SJewel];
-  // rooms[7].item = &items[SJewel];
-  // rooms[16].item = &items[SJewel];
-  // rooms[20].item = &items[SJewel];
-
-  // rooms[17].item = &items[MJewel];
-  // * test
-  static Dagger d = {"Dagger", 1 / 3, 2};
-  rooms[1].dagger = &d;
-  static Enemy e = {Boss, "ラスボス", 50, 50, 3, 5};
-  rooms[24].enemy = &e;
-
-  // rooms[10].item = &items[Potion];
-  // rooms[18].item = &items[Potion];
-  // rooms[21].item = &items[Potion];
   player.curRoom = rooms;
   player.curRoom->isVisited = true;
   return rooms;
+}
+
+void setItems(Room* rooms, Item* items) {
+  items_g = items;
+  rooms[3].item = &items[SJewel];
+  rooms[7].item = &items[SJewel];
+  rooms[14].item = &items[SJewel];
+  rooms[20].item = &items[SJewel];
+  rooms[17].item = &items[MJewel];
+  rooms[10].item = &items[Potion];
+  rooms[18].item = &items[Potion];
+  rooms[21].item = &items[Potion];
+}
+
+void setDagger(Room* rooms, Dagger* dagger) {
+  rooms[9].dagger = dagger;
+}
+
+void setEnemy(Room* rooms, Enemy* enemy) {
+  //雑魚
+  rooms[2].enemy = &enemy[0];
+  rooms[5].enemy = &enemy[1];
+  //強い雑魚
+  rooms[15].enemy = &enemy[2];
+  rooms[16].enemy = &enemy[3];
+  rooms[23].enemy = &enemy[4];
+  // 中ボス
+  rooms[13].enemy = &enemy[5];
+  // ボス
+  rooms[24].enemy = &enemy[6];
 }

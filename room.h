@@ -26,5 +26,7 @@ struct __room {
 };
 
 Room* initRoom();
-
+void setItems(Room*, Item*);
+void setDagger(Room*, Dagger*);
+void setEnemy(Room*, Enemy*);
 #endif

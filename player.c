@@ -28,10 +28,10 @@ void initPlayer() {
 void move() {
   while (true) {
     // 質問
-    printf("次どっちいく？ ");
+    printf("次どっちいく？ []の数字をいれてね\n");
     int maxindex = -1;
     for (int i = 0; player.curRoom->neighbors[i] != NULL; i++) {
-      printf("[%d] \"%s\"\t ", i + 1, player.curRoom->neighbors[i]->name);
+      printf("\t\"%s\" [%d] ", player.curRoom->neighbors[i]->name, i + 1);
       maxindex++;
     }
     printf("> ");
