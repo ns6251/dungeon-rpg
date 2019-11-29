@@ -8,7 +8,7 @@ CC = gcc
 CFLAGS = -std=c11 -Wpedantic -W -Wall
 
 $(PROGRAM): $(OBJS)
-	$(CC) -o $(PROGRAM) $^
+	$(CC) $(CFLAGS) -o $(PROGRAM) $^
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
