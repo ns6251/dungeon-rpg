@@ -47,7 +47,7 @@ static void printMap() {
       "      ║           ║      \n"
       "      #           Y*     \n"
       "                 Goal  \n\n"
-      " ^ : midBoss\t* : Boss \n\n");
+      "^ : midBoss\t* : Boss \n\n");
 }
 
 /**
