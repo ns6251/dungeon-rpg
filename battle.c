@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "player.h"
 
 static const double CRITICAL_RATE = 2.0;  // 共通クリティカル倍率
@@ -54,10 +53,6 @@ static int daggerRate(Dagger* d) {
 }
 
 EnemyType battle(Enemy* e) {
-#ifndef _srand_
-#define _srand_
-  srand(time(NULL));
-#endif
   while (true) {
     printf("%s: %d/%d\t%s: %d/%d\n", player.name, player.hp, player.maxHp,
            e->name, e->hp, e->maxHp);

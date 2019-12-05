@@ -4,10 +4,12 @@
 
 #include "dungeon.h"
 #include <stdbool.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "battle.h"
 #include "player.h"
 #include "room.h"
+#include <time.h>
 #include "turn.h"
 
 static Enemy* enemies;
@@ -19,6 +21,7 @@ static Room* rooms;
  * @author C0117230
  */
 GameState initDungeon() {
+  srand(time(NULL));
   enemies = initEnemies();
   dagger = initDagger();
   items = initItems();
