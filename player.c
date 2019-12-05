@@ -43,8 +43,20 @@ void move() {
       printf("正しい値を入力してね\n");
       continue;
     }
+    Room* next = player.curRoom->neighbors[index];
+    if (next->enemy != NULL &&
+        (next->enemy->type == MidBoss || next->enemy->type == Boss)) {
+      printf("本当に%sに挑みますか？ [y/n] > ", next->enemy->name);
+      scanf("%4s*[^\n]%*c", input);
+      if (strcmp(input, "n") == 0) {
+        continue;
+      } else if (strcmp(input, "y") != 0) {
+        printf("正しい値を入力してね\n");
+        continue;
+      }
+    }
     // playerの居る部屋を更新
-    player.curRoom = player.curRoom->neighbors[index];
+    player.curRoom = next;
     break;
   }
 }
