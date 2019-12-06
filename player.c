@@ -44,7 +44,7 @@ void move() {
       continue;
     }
     Room* next = player.curRoom->neighbors[index];
-    if (next->enemy != NULL &&
+    if (next->enemy != NULL && next->isVisited == false &&
         (next->enemy->type == MidBoss || next->enemy->type == Boss)) {
       printf("本当に%sに挑みますか？ [y/n] > ", next->enemy->name);
       scanf("%4s*[^\n]%*c", input);
