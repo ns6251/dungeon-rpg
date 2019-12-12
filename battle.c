@@ -4,6 +4,7 @@
  */
 
 #include "battle.h"
+#include "modules.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,6 +55,7 @@ static int daggerRate(Dagger* d) {
 
 EnemyType battle(Enemy* e) {
   while (true) {
+    enter2continue();
     printf("%s: %d/%d\t%s: %d/%d\n", player.name, player.hp, player.maxHp,
            e->name, e->hp, e->maxHp);
     // プレイヤーの攻撃

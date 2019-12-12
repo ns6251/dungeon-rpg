@@ -228,7 +228,6 @@ static void setEvent(Room* rooms) {
   for (int i = 0; i < ROOM_NUM; i++) {
     rooms[i].event = noEvent;
   }
-  // * test
   rooms[2].event = encountEnemy;
   rooms[3].event = findItem;
   rooms[5].event = encountEnemy;
