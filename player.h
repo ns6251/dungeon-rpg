@@ -25,5 +25,6 @@ extern Player player;
 void initPlayer();
 void move();
 void usePotion();
+void setPlayer(Room*);
 
 #endif

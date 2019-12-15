@@ -70,19 +70,19 @@ static GameState encountEnemy(void) {
 }
 
 static GameState spring(void) {
-  int s = 25;
+  const int s = 25;
   printf("%sは泉を発見した！\n", player.name);
   player.maxHp += s;
   player.hp += s;
-  printf("%sは泉を浴びて、体力が%d回復して、体力の最大値が%d上昇した！\n",
-         player.name, s, s);
+  printf("%sは泉を浴びて、体力と体力の最大値が%d上昇した！\n", player.name, s);
   return Still;
 }
 
 static GameState trap(void) {
   const int dmg = 10;
-  printf("%sは、トラップに引っかかってしまった。", player.name);
-  printf("%dのダメージ！", dmg);
+  printf("イタイ！\n");
+  printf("%sは、トラップに引っかかってしまった。\n", player.name);
+  printf("%dのダメージ！\n", dmg);
   player.hp -= dmg;
   if (player.hp <= 0) {
     return GameOver;
@@ -268,8 +268,6 @@ Room* initRoom() {
   }
   connectRoom(rooms);
   setEvent(rooms);
-  player.curRoom = rooms;
-  player.curRoom->isVisited = true;
   return rooms;
 }
 
