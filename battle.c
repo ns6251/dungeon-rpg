@@ -49,8 +49,7 @@ static int daggerRate(Dagger* d) {
   }
   rate = d->rate;
   if (isCritical(d->criticalOdds)) {
-    const unsigned len = 17;
-    char* serif[len] = {
+    char* serif[17] = {
         "〇ねぇぇぇぇぇぇぇぇぇぇぇぇぇぇ！！！！！！！！！！！！！！！",
         "神の力思い知れ！ゴッドブロオオォ！ゴッドブローとは女神の怒りと悲しみを"
         "乗せた必殺の拳！相手は死ぬ！",
@@ -74,7 +73,7 @@ static int daggerRate(Dagger* d) {
         "アベ政権を許すな",
         "響け､集え!全てを滅する刃と化せ！！ロスト･フォン･ドライブ！！",
         "(۳˚Д˚)۳= ▁▂▃▅▆▇█▓▒"};
-    printf("%s\n", serif[rand() % len]);
+    printf("%s\n", serif[rand() % 17]);
     printf("----------クリティカルヒット！----------\n");
     rate *= CRITICAL_RATE;
   }
