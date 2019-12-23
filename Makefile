@@ -1,11 +1,13 @@
 PROGRAM = main.out
-OBJS = $(patsubst %.c,%.o,$(wildcard *.c))
-HEADER = $(wildcard *.h)
+SOURCES = $(wildcard *.c)
+HEADERS = $(wildcard *.h)
+OBJS = $(patsubst %.c,%.o,$(SOURCES))
+CC = gcc
+CFLAGS = -std=c11 -Wpedantic -W -Wall
+FORMATER = clang-format
 
 .SUFFIXES: .c .o
 
-CC = gcc
-CFLAGS = -std=c11 -Wpedantic -W -Wall
 
 $(PROGRAM): $(OBJS)
 	$(CC) $(CFLAGS) -o $(PROGRAM) $^
@@ -17,4 +19,8 @@ $(PROGRAM): $(OBJS)
 clean:
 	$(RM) $(PROGRAM) $(OBJS)
 
-$(OBJS): $(HEADER)
+.PHONY: format
+format:
+	$(FORMATER) -i -style=file $(SOURCES) $(HEADERS)
+
+$(OBJS): $(HEADERS)
