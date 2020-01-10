@@ -15,10 +15,23 @@ Player player;
  * @author C0117230
  */
 void initPlayer() {
-  strcpy(player.name, "Taro");
+  char name[512] = "";
+  printf("Your name? >");
+  scanf("%511[^\n]%*[^\n]", name);
+  scanf("%*c");
+  if (strlen(name) != 0) {
+    strcpy(player.name, name);
+  } else {
+    strcpy(player.name, "Gucci gang");
+  }
   player.hp = player.maxHp = 30;
   player.minAtk = 1;
   player.maxAtk = 3;
+}
+
+void setPlayer(Room* r) {
+  player.curRoom = r;
+  player.curRoom->isVisited = true;
 }
 
 /**
@@ -37,17 +50,19 @@ void move() {
     printf("> ");
     // 入力の受付及び入力チェック
     char input[4];
-    scanf("%4s%*[^\n]%*c", input);
+    scanf("%4[^\n]%*[^\n]", input);
+    scanf("%*c");
     int index = atoi(input) - 1;
     if (index < 0 || maxindex < index) {
       printf("正しい値を入力してね\n");
       continue;
     }
     Room* next = player.curRoom->neighbors[index];
-    if (next->enemy != NULL &&
+    if (next->enemy != NULL && next->isVisited == false &&
         (next->enemy->type == MidBoss || next->enemy->type == Boss)) {
       printf("本当に%sに挑みますか？ [y/n] > ", next->enemy->name);
-      scanf("%4s*[^\n]%*c", input);
+      scanf("%4[^\n]%*[^\n]", input);
+      scanf("%*c");
       if (strcmp(input, "n") == 0) {
         continue;
       } else if (strcmp(input, "y") != 0) {
@@ -68,7 +83,8 @@ void usePotion() {
   char input[4];
   while (true) {
     printf("ポーションを使用しますか？[y/n]: ");
-    scanf("%4s%*[^\n]%*c", input);
+    scanf("%4[^\n]%*[^\n]", input);
+    scanf("%*c");
     if (strcmp((input), "y") == 0) {
       player.hp = player.maxHp;
       player.storage[Potion]--;

@@ -42,7 +42,7 @@ Item* initItems() {
 Dagger* initDagger() {
   Dagger* dagger = (Dagger*)calloc(1, sizeof(Dagger));
   strcpy(dagger->name, "ダガー");
-  dagger->criticalOdds = 1 / 3;
+  dagger->criticalOdds = 0.3;
   dagger->rate = 2;
   return dagger;
 }
