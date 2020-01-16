@@ -120,17 +120,22 @@ void printRule() {
 void printScore(GameState gs) {
   //宝の合計｛宝（大）＋宝（中）＋宝（小）＋ポーションの数｝-(ターン×10)
   int result = 0;
-  for (int i = 0; i < ItemTypeLen; i++) {
-    int score = items[i].score * player.storage[i];
+  // Potionのtab indentを調整するため、例外的にループの外に処理を出した
+  int score = items[Potion].score * player.storage[Potion];
+  printf("%sの所持数: %d\t+%d\n", items[Potion].name, player.storage[Potion],
+         score);
+  result += score;
+  for (int i = 1; i < ItemTypeLen; i++) {
+    score = items[i].score * player.storage[i];
     printf("%sの所持数:\t%d\t+%d\n", items[i].name, player.storage[i], score);
     result += score;
   }
-  int score = getTurn() * 10;
+  score = getTurn() * 10;
   printf("所要ターン数:\t%d\t-%d\n", getTurn(), score);
   result -= score;
   if (gs == GameOver) {
-    printf("You died:\t\t\t%d\n", -result);
-    result = 0;
+    printf("You died:\t\t%d\n", -9999);
+    result -= 9999;
   }
   printf("最終スコア:\t\t%d\n", result);
 }

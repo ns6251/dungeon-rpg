@@ -11,15 +11,42 @@
 #include "player.h"
 #include "turn.h"
 
+static void askAction() {
+  while (true) {
+    printf("Select next action.\n");
+    printf("部屋を移動する: [1]\tポーションを使う: [2]\tヘルプ: [0]\t>");
+    char input[4];
+    scanf("%4[^\n]%*[^\n]", input);
+    scanf("%*c");
+    int index = atoi(input);
+
+    if (index > 2 || index < 0) {
+      printf("正しい値を入力してね！\n");
+      continue;
+    }
+    if (index == 0) {
+      printRule();
+      continue;
+    }
+    if (index == 1) {
+      move();
+      break;
+    }
+    if (index == 2) {
+      usePotion();
+      continue;
+    }
+  }
+}
+
 int main(void) {
   initPlayer();
   GameState gamestate = initDungeon();
   printRule();
 
   while (gamestate == Still) {
-    usePotion();
     printDungeonInfo();
-    move();
+    askAction();
     if (player.curRoom->isVisited == false) {
       gamestate = player.curRoom->event();
       enter2continue();

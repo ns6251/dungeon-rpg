@@ -77,9 +77,15 @@ void move() {
 }
 
 void usePotion() {
-  if (player.storage[Potion] <= 0 || player.hp == player.maxHp) {
+  if (player.storage[Potion] <= 0) {
+    printf("ポーションを持っていない！\n");
     return;
   }
+  if (player.hp == player.maxHp) {
+    printf("体力は満タンだ\n");
+    return;
+  }
+
   char input[4];
   while (true) {
     printf("ポーションを使用しますか？[y/n]: ");
