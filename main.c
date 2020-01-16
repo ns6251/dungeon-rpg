@@ -13,27 +13,28 @@
 
 static void askAction() {
   while (true) {
-    printf("Select next action.\n");
-    printf("部屋を移動する: [1]\tポーションを使う: [2]\tヘルプ: [0]\t>");
-    char input[4];
+    printf("\nSelect next action.\n");
+    printf("部屋を移動する: [1]\tポーションを使う: [2]\tヘルプ: [3]\t>");
+    char input[4] = "";
+
     scanf("%4[^\n]%*[^\n]", input);
     scanf("%*c");
-    int index = atoi(input);
+    int n = atoi(input);
 
-    if (index > 2 || index < 0) {
+    if (n > 3 || n <= 0) {
       printf("正しい値を入力してね！\n");
       continue;
     }
-    if (index == 0) {
-      printRule();
-      continue;
-    }
-    if (index == 1) {
+    if (n == 1) {
       move();
       break;
     }
-    if (index == 2) {
+    if (n == 2) {
       usePotion();
+      continue;
+    }
+    if (n == 3) {
+      printRule();
       continue;
     }
   }
