@@ -57,7 +57,7 @@ int main(void) {
   }
   switch (gamestate) {
     case GameOver:
-      printf("%sは死んでしまった…\n\n", player.name);
+      printf("%sは死んでしまった…\n\n", player.base.name);
       break;
     case GameClear:
       printf("Game Clear!\n");

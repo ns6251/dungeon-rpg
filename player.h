@@ -6,15 +6,12 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
+#include "creature.h"
 #include "item.h"
 #include "room.h"
 
-typedef struct __player {
-  char name[256];
-  int hp;
-  int maxHp;
-  int minAtk;
-  int maxAtk;
+typedef struct player {
+  Creature base;
   int storage[ItemTypeLen];
   Dagger* dagger;
   Room* curRoom;

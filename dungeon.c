@@ -146,7 +146,7 @@ void printDungeonInfo() {
       "\n\n");
   printMap();
   printf("%dターン目\t", getTurn());
-  printf("HP: %d/%d\t", player.hp, player.maxHp);
+  printf("HP: %d/%d\t", player.base.hp, player.base.maxHp);
   printf("ポーション所持数: %d\n", player.storage[Potion]);
   printf("現在位置: \"%s\"\n\n", player.curRoom->name);
 }

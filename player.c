@@ -20,13 +20,13 @@ void initPlayer() {
   scanf("%511[^\n]%*[^\n]", name);
   scanf("%*c");
   if (strlen(name) != 0) {
-    strcpy(player.name, name);
+    strcpy(player.base.name, name);
   } else {
-    strcpy(player.name, "Gucci gang");
+    strcpy(player.base.name, "Gucci gang");
   }
-  player.hp = player.maxHp = 30;
-  player.minAtk = 1;
-  player.maxAtk = 3;
+  player.base.hp = player.base.maxHp = 30;
+  player.base.minAtk = 1;
+  player.base.maxAtk = 3;
 }
 
 void setPlayer(Room* r) {
@@ -60,7 +60,7 @@ void move() {
     Room* next = player.curRoom->neighbors[index];
     if (next->enemy != NULL && next->isVisited == false &&
         (next->enemy->type == MidBoss || next->enemy->type == Boss)) {
-      printf("本当に%sに挑みますか？ [y/n] > ", next->enemy->name);
+      printf("本当に%sに挑みますか？ [y/n] > ", next->enemy->base.name);
       scanf("%4[^\n]%*[^\n]", input);
       scanf("%*c");
       if (strcmp(input, "n") == 0) {
@@ -81,7 +81,7 @@ void usePotion() {
     printf("ポーションを持っていない！\n");
     return;
   }
-  if (player.hp == player.maxHp) {
+  if (player.base.hp == player.base.maxHp) {
     printf("体力は満タンだ\n");
     return;
   }
@@ -92,12 +92,12 @@ void usePotion() {
     scanf("%4[^\n]%*[^\n]", input);
     scanf("%*c");
     if (strcmp((input), "y") == 0) {
-      player.hp = player.maxHp;
+      player.base.hp = player.base.maxHp;
       player.storage[Potion]--;
-      printf("%sはポーションを使ってHPは全快した！\n", player.name);
+      printf("%sはポーションを使ってHPは全快した！\n", player.base.name);
       break;
     } else if (strcmp(input, "n") == 0) {
-      printf("%sはポーションを温存することにした。\n", player.name);
+      printf("%sはポーションを温存することにした。\n", player.base.name);
       break;
     } else {
       printf("正しい値を入力してね\n");

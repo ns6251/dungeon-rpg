@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "creature.h"
 #include "modules.h"
 #include "player.h"
 #include "turn.h"
@@ -18,10 +19,10 @@ Enemy* initEnemies() {
   const int e_num = 7;
   Enemy* e = (Enemy*)calloc(e_num, sizeof(Enemy));
 
-  Enemy zako = {Winp, "ゾンビ", 10, 10, 1, 3};
-  Enemy strong_Zako = {Winp, "アリゲーター", 15, 15, 2, 4};
-  Enemy mid = {MidBoss, "ケルベロス", 30, 30, 1, 5};
-  Enemy boss = {Boss, "ウロボロス", 50, 50, 2, 6};
+  Enemy zako = {{"ゾンビ", 10, 10, 1, 3}, Winp};
+  Enemy strong_Zako = {{"アリゲーター", 15, 15, 2, 4}, Winp};
+  Enemy mid = {{"ケルベロス", 30, 30, 1, 5}, MidBoss};
+  Enemy boss = {{"ウロボロス", 50, 50, 2, 6}, Boss};
 
   e[0] = zako;
   e[1] = zako;
@@ -84,23 +85,25 @@ EnemyType battle(Enemy* e) {
   while (true) {
     enter2continue();
     addTurn();
-    printf("%s: %d/%d\t%s: %d/%d\n", player.name, player.hp, player.maxHp,
-           e->name, e->hp, e->maxHp);
+    printf("%s: %d/%d\t%s: %d/%d\n", player.base.name, player.base.hp,
+           player.base.maxHp, e->base.name, e->base.hp, e->base.maxHp);
     // プレイヤーの攻撃
-    int dmg = (int)basicDamage(player.minAtk, player.maxAtk);
+    int dmg = (int)basicDamage(player.base.minAtk, player.base.maxAtk);
     dmg *= daggerRate(player.dagger);
-    e->hp -= dmg;
-    printf("%sの攻撃！%sに%dのダメージ！\n", player.name, e->name, dmg);
-    if (e->hp <= 0) {
+    e->base.hp -= dmg;
+    printf("%sの攻撃！%sに%dのダメージ！\n", player.base.name, e->base.name,
+           dmg);
+    if (e->base.hp <= 0) {
       printf("battle win\n");
       return e->type;
     }
 
     // エネミーの攻撃
-    dmg = basicDamage(e->minAtk, e->maxAtk);
-    player.hp -= dmg;
-    printf("%sの攻撃！%sに%dのダメージ！\n", e->name, player.name, dmg);
-    if (player.hp <= 0) {
+    dmg = basicDamage(e->base.minAtk, e->base.maxAtk);
+    player.base.hp -= dmg;
+    printf("%sの攻撃！%sに%dのダメージ！\n", e->base.name, player.base.name,
+           dmg);
+    if (player.base.hp <= 0) {
       printf("battle lose\n");
       return Lose;
     }
