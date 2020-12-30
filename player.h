@@ -19,9 +19,9 @@ typedef struct player {
 
 extern Player player;
 
-void initPlayer();
-void move();
-void usePotion();
+void initPlayer(void);
+void move(void);
+void usePotion(void);
 void setPlayer(Room*);
 
 #endif

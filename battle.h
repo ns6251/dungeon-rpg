@@ -15,8 +15,8 @@ typedef struct {
   EnemyType type;
 } Enemy;
 
-Enemy* initEnemies();
+Enemy* initEnemies(void);
 
-EnemyType battle();
+EnemyType battle(Enemy* e);
 
 #endif

@@ -25,7 +25,7 @@ struct __room {
   GameState (*event)(void);
 };
 
-Room* initRoom();
+Room* initRoom(void);
 void setItems(Room*, Item*);
 void setDagger(Room*, Dagger*);
 void setEnemy(Room*, Enemy*);

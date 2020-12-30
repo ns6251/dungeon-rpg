@@ -5,10 +5,10 @@
 
 static int turn;
 
-void addTurn() {
+void addTurn(void) {
   turn++;
 }
 
-int getTurn() {
+int getTurn(void) {
   return turn;
 }

@@ -8,12 +8,12 @@
 
 typedef enum { Still, GameOver, GameClear } GameState;
 
-GameState initDungeon();
+GameState initDungeon(void);
 
-void printRule();
+void printRule(void);
 
-void printScore();
+void printScore(GameState gs);
 
-void printDungeonInfo();
+void printDungeonInfo(void);
 
 #endif

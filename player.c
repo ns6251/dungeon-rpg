@@ -14,7 +14,7 @@ Player player;
  * @brief グローバル変数playerの初期化を行う。
  * @author C0117230
  */
-void initPlayer() {
+void initPlayer(void) {
   char name[512] = "";
   printf("Your name? >");
   scanf("%511[^\n]%*[^\n]", name);
@@ -38,7 +38,7 @@ void setPlayer(Room* r) {
  * @brief グローバル変数playerを別の部屋に移動させる
  * @auther: C0117230
  */
-void move() {
+void move(void) {
   while (true) {
     // 質問
     printf("次どっちいく？ []の数字をいれてね\n");
@@ -76,7 +76,7 @@ void move() {
   }
 }
 
-void usePotion() {
+void usePotion(void) {
   if (player.storage[Potion] <= 0) {
     printf("ポーションを持っていない！\n");
     return;

@@ -11,7 +11,7 @@
 #include "player.h"
 #include "turn.h"
 
-static void askAction() {
+static void askAction(void) {
   while (true) {
     printf("\nSelect next action.\n");
     printf("部屋を移動する: [1]\tポーションを使う: [2]\tヘルプ: [3]\t>");

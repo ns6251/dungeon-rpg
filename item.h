@@ -20,7 +20,7 @@ typedef struct __dagger {
   int rate;             // 武器倍率
 } Dagger;
 
-Item* initItems();
-Dagger* initDagger();
+Item* initItems(void);
+Dagger* initDagger(void);
 
 #endif

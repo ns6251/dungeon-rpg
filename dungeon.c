@@ -21,7 +21,7 @@ static Room* rooms;
 /**
  * @author C0117230
  */
-GameState initDungeon() {
+GameState initDungeon(void) {
   srand((unsigned)time(NULL));
   enemies = initEnemies();
   dagger = initDagger();
@@ -34,7 +34,7 @@ GameState initDungeon() {
   return Still;
 }
 
-static void printMap() {
+static void printMap(void) {
   printf(
       "      ---Dungeon Map---     \n\n"
       "            K                 \n"
@@ -52,7 +52,7 @@ static void printMap() {
 /**
  * @author C0117109
  */
-void printRule() {
+void printRule(void) {
   printf(
       "----------物語のあらすじ----------"
       "\n\n"
@@ -140,7 +140,7 @@ void printScore(GameState gs) {
   printf("最終スコア:\t\t%d\n", result);
 }
 
-void printDungeonInfo() {
+void printDungeonInfo(void) {
   printf(
       "------------------------------------------------------------------------"
       "\n\n");

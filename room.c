@@ -258,7 +258,7 @@ static void setEvent(Room* rooms) {
  * @brief Roomを作成する
  * @author
  */
-Room* initRoom() {
+Room* initRoom(void) {
   Room* rooms = (Room*)calloc(ROOM_NUM, sizeof(Room));
   char* namelist[ROOM_NUM] = {"Room A", "Room B", "Room C", "Room D", "Room E",
                               "Room F", "Room G", "Room H", "Room I", "Room J",
