@@ -26,10 +26,9 @@ static GameState findItem(void) {
 }
 
 static GameState findDagger(void) {
-  printf("%sを見つけた！\n", player.curRoom->dagger->name);
-  player.dagger = player.curRoom->dagger;
-  printf("%sは%sを装備した( ･´ｰ･｀)ﾄﾞﾔｰ\n", player.base.name,
-         player.dagger->name);
+  printf("ダガーを見つけた！\n");
+  Player_equip_dagger();
+  printf("%sはダガーを装備した( ･´ｰ･｀)ﾄﾞﾔｰ\n", player.base.name);
   return Still;
 }
 
@@ -284,10 +283,6 @@ void setItems(Room* rooms, Item* items) {
   rooms[10].item = &items[Potion];
   rooms[18].item = &items[Potion];
   rooms[21].item = &items[Potion];
-}
-
-void setDagger(Room* rooms, Dagger* dagger) {
-  rooms[9].dagger = dagger;
 }
 
 void setEnemy(Room* rooms, Enemy* enemy) {

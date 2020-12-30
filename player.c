@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "creature.h"
 
 Player player;
 
@@ -15,18 +16,12 @@ Player player;
  * @author C0117230
  */
 void initPlayer(void) {
-  char name[512] = "";
+  char name[256] = "";
   printf("Your name? >");
-  scanf("%511[^\n]%*[^\n]", name);
+  scanf("%255[^\n]%*[^\n]", name);
   scanf("%*c");
-  if (strlen(name) != 0) {
-    strcpy(player.base.name, name);
-  } else {
-    strcpy(player.base.name, "Gucci gang");
-  }
-  player.base.hp = player.base.maxHp = 30;
-  player.base.minAtk = 1;
-  player.base.maxAtk = 3;
+
+  Creature_init(&player.base, name[0] ? name : "勇者あああ", 30, 30, 1, 3);
 }
 
 void setPlayer(Room* r) {
@@ -103,4 +98,34 @@ void usePotion(void) {
       printf("正しい値を入力してね\n");
     }
   }
+}
+
+static int basicDamage(int min, int max) {
+  int dmg = min + (int)(rand() * (max - min + 1.0) / (1.0 + RAND_MAX));
+  return dmg;
+}
+
+static bool isCritical(double odds) {
+  return (odds >= ((double)rand() / RAND_MAX));
+}
+
+static void attack_with_dagger(Creature* a, Creature* b) {
+  const double odds = 0.30;
+  const int rate = 2;
+
+  printf("%sはダガーを一閃した！", a->name);
+  int damage = basicDamage(a->minAtk, a->maxAtk) * rate;
+  if (isCritical(odds)) {
+    printf("クリティカルヒット！！！");
+    damage *= rate;
+  }
+  b->hp -= damage;
+  printf("%sに%dのダメージ！\n", b->name, damage);
+}
+
+static struct attacker attacker_with_dagger = {.attack = attack_with_dagger};
+
+void Player_equip_dagger(void) {
+  Creature* p = &player.base;
+  p->attack = &attacker_with_dagger;
 }

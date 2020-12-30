@@ -33,16 +33,3 @@ Item* initItems(void) {
 
   return items;
 }
-
-/**
- * @brief Daggerを作成する
- * @return 作成したDaggerのポインタ
- * @author C0117230
- */
-Dagger* initDagger(void) {
-  Dagger* dagger = (Dagger*)calloc(1, sizeof(Dagger));
-  strcpy(dagger->name, "ダガー");
-  dagger->criticalOdds = 0.3;
-  dagger->rate = 2;
-  return dagger;
-}

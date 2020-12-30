@@ -14,7 +14,6 @@
 #include "turn.h"
 
 static Enemy* enemies;
-static Dagger* dagger;
 static Item* items;
 static Room* rooms;
 
@@ -24,11 +23,9 @@ static Room* rooms;
 GameState initDungeon(void) {
   srand((unsigned)time(NULL));
   enemies = initEnemies();
-  dagger = initDagger();
   items = initItems();
   rooms = initRoom();
   setItems(rooms, items);
-  setDagger(rooms, dagger);
   setEnemy(rooms, enemies);
   setPlayer(rooms);
   return Still;

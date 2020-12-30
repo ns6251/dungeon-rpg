@@ -20,13 +20,11 @@ struct __room {
   bool isVisited;
   Enemy* enemy;
   Item* item;
-  Dagger* dagger;
   Room** neighbors;
   GameState (*event)(void);
 };
 
 Room* initRoom(void);
 void setItems(Room*, Item*);
-void setDagger(Room*, Dagger*);
 void setEnemy(Room*, Enemy*);
 #endif

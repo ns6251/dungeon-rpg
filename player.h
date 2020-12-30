@@ -13,7 +13,6 @@
 typedef struct player {
   Creature base;
   int storage[ItemTypeLen];
-  Dagger* dagger;
   Room* curRoom;
 } Player;
 
@@ -23,5 +22,6 @@ void initPlayer(void);
 void move(void);
 void usePotion(void);
 void setPlayer(Room*);
+void Player_equip_dagger(void);
 
 #endif
