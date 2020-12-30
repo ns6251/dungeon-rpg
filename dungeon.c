@@ -14,27 +14,24 @@
 #include "turn.h"
 
 static Enemy* enemies;
-static Dagger* dagger;
 static Item* items;
 static Room* rooms;
 
 /**
  * @author C0117230
  */
-GameState initDungeon() {
+GameState initDungeon(void) {
   srand((unsigned)time(NULL));
   enemies = initEnemies();
-  dagger = initDagger();
   items = initItems();
   rooms = initRoom();
   setItems(rooms, items);
-  setDagger(rooms, dagger);
   setEnemy(rooms, enemies);
   setPlayer(rooms);
   return Still;
 }
 
-static void printMap() {
+static void printMap(void) {
   printf(
       "      ---Dungeon Map---     \n\n"
       "            K                 \n"
@@ -52,7 +49,7 @@ static void printMap() {
 /**
  * @author C0117109
  */
-void printRule() {
+void printRule(void) {
   printf(
       "----------物語のあらすじ----------"
       "\n\n"
@@ -140,13 +137,13 @@ void printScore(GameState gs) {
   printf("最終スコア:\t\t%d\n", result);
 }
 
-void printDungeonInfo() {
+void printDungeonInfo(void) {
   printf(
       "------------------------------------------------------------------------"
       "\n\n");
   printMap();
   printf("%dターン目\t", getTurn());
-  printf("HP: %d/%d\t", player.hp, player.maxHp);
+  printf("HP: %d/%d\t", player.base.hp, player.base.maxHp);
   printf("ポーション所持数: %d\n", player.storage[Potion]);
   printf("現在位置: \"%s\"\n\n", player.curRoom->name);
 }

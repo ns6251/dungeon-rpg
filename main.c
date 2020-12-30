@@ -11,7 +11,7 @@
 #include "player.h"
 #include "turn.h"
 
-static void askAction() {
+static void askAction(void) {
   while (true) {
     printf("\nSelect next action.\n");
     printf("部屋を移動する: [1]\tポーションを使う: [2]\tヘルプ: [3]\t>");
@@ -57,7 +57,7 @@ int main(void) {
   }
   switch (gamestate) {
     case GameOver:
-      printf("%sは死んでしまった…\n\n", player.name);
+      printf("%sは死んでしまった…\n\n", player.base.name);
       break;
     case GameClear:
       printf("Game Clear!\n");

@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "battle.h"
+#include "creature.h"
 #include "item.h"
 #include "player.h"
 
@@ -25,9 +26,9 @@ static GameState findItem(void) {
 }
 
 static GameState findDagger(void) {
-  printf("%sを見つけた！\n", player.curRoom->dagger->name);
-  player.dagger = player.curRoom->dagger;
-  printf("%sは%sを装備した( ･´ｰ･｀)ﾄﾞﾔｰ\n", player.name, player.dagger->name);
+  printf("ダガーを見つけた！\n");
+  Player_equip_dagger();
+  printf("%sはダガーを装備した( ･´ｰ･｀)ﾄﾞﾔｰ\n", player.base.name);
   return Still;
 }
 
@@ -46,7 +47,7 @@ static void dropItem(ItemType it, double odds) {
 
 static GameState encountEnemy(void) {
   Enemy* enemy = player.curRoom->enemy;
-  printf("%sが現れた！\n", enemy->name);
+  printf("%sが現れた！\n", enemy->base.name);
   EnemyType et = battle(enemy);
   switch (et) {
     case Winp:
@@ -71,20 +72,21 @@ static GameState encountEnemy(void) {
 
 static GameState spring(void) {
   const int s = 25;
-  printf("%sは泉を発見した！\n", player.name);
-  player.maxHp += s;
-  player.hp += s;
-  printf("%sは泉を浴びて、体力と体力の最大値が%d上昇した！\n", player.name, s);
+  printf("%sは泉を発見した！\n", player.base.name);
+  player.base.maxHp += s;
+  player.base.hp += s;
+  printf("%sは泉を浴びて、体力と体力の最大値が%d上昇した！\n", player.base.name,
+         s);
   return Still;
 }
 
 static GameState trap(void) {
   const int dmg = 10;
   printf("イタイ！\n");
-  printf("%sは、トラップに引っかかってしまった。\n", player.name);
+  printf("%sは、トラップに引っかかってしまった。\n", player.base.name);
   printf("%dのダメージ！\n", dmg);
-  player.hp -= dmg;
-  if (player.hp <= 0) {
+  player.base.hp -= dmg;
+  if (player.base.hp <= 0) {
     return GameOver;
   } else {
     return Still;
@@ -255,7 +257,7 @@ static void setEvent(Room* rooms) {
  * @brief Roomを作成する
  * @author
  */
-Room* initRoom() {
+Room* initRoom(void) {
   Room* rooms = (Room*)calloc(ROOM_NUM, sizeof(Room));
   char* namelist[ROOM_NUM] = {"Room A", "Room B", "Room C", "Room D", "Room E",
                               "Room F", "Room G", "Room H", "Room I", "Room J",
@@ -281,10 +283,6 @@ void setItems(Room* rooms, Item* items) {
   rooms[10].item = &items[Potion];
   rooms[18].item = &items[Potion];
   rooms[21].item = &items[Potion];
-}
-
-void setDagger(Room* rooms, Dagger* dagger) {
-  rooms[9].dagger = dagger;
 }
 
 void setEnemy(Room* rooms, Enemy* enemy) {

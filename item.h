@@ -14,13 +14,7 @@ typedef struct __item {
   int score;
 } Item;
 
-typedef struct __dagger {
-  char name[256];
-  double criticalOdds;  //クリティカル率
-  int rate;             // 武器倍率
-} Dagger;
 
-Item* initItems();
-Dagger* initDagger();
+Item* initItems(void);
 
 #endif

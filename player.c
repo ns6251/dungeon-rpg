@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "creature.h"
 
 Player player;
 
@@ -14,19 +15,13 @@ Player player;
  * @brief グローバル変数playerの初期化を行う。
  * @author C0117230
  */
-void initPlayer() {
-  char name[512] = "";
+void initPlayer(void) {
+  char name[256] = "";
   printf("Your name? >");
-  scanf("%511[^\n]%*[^\n]", name);
+  scanf("%255[^\n]%*[^\n]", name);
   scanf("%*c");
-  if (strlen(name) != 0) {
-    strcpy(player.name, name);
-  } else {
-    strcpy(player.name, "Gucci gang");
-  }
-  player.hp = player.maxHp = 30;
-  player.minAtk = 1;
-  player.maxAtk = 3;
+
+  Creature_init(&player.base, name[0] ? name : "勇者あああ", 30, 30, 1, 3);
 }
 
 void setPlayer(Room* r) {
@@ -38,7 +33,7 @@ void setPlayer(Room* r) {
  * @brief グローバル変数playerを別の部屋に移動させる
  * @auther: C0117230
  */
-void move() {
+void move(void) {
   while (true) {
     // 質問
     printf("次どっちいく？ []の数字をいれてね\n");
@@ -60,7 +55,7 @@ void move() {
     Room* next = player.curRoom->neighbors[index];
     if (next->enemy != NULL && next->isVisited == false &&
         (next->enemy->type == MidBoss || next->enemy->type == Boss)) {
-      printf("本当に%sに挑みますか？ [y/n] > ", next->enemy->name);
+      printf("本当に%sに挑みますか？ [y/n] > ", next->enemy->base.name);
       scanf("%4[^\n]%*[^\n]", input);
       scanf("%*c");
       if (strcmp(input, "n") == 0) {
@@ -76,12 +71,12 @@ void move() {
   }
 }
 
-void usePotion() {
+void usePotion(void) {
   if (player.storage[Potion] <= 0) {
     printf("ポーションを持っていない！\n");
     return;
   }
-  if (player.hp == player.maxHp) {
+  if (player.base.hp == player.base.maxHp) {
     printf("体力は満タンだ\n");
     return;
   }
@@ -92,15 +87,45 @@ void usePotion() {
     scanf("%4[^\n]%*[^\n]", input);
     scanf("%*c");
     if (strcmp((input), "y") == 0) {
-      player.hp = player.maxHp;
+      player.base.hp = player.base.maxHp;
       player.storage[Potion]--;
-      printf("%sはポーションを使ってHPは全快した！\n", player.name);
+      printf("%sはポーションを使ってHPは全快した！\n", player.base.name);
       break;
     } else if (strcmp(input, "n") == 0) {
-      printf("%sはポーションを温存することにした。\n", player.name);
+      printf("%sはポーションを温存することにした。\n", player.base.name);
       break;
     } else {
       printf("正しい値を入力してね\n");
     }
   }
+}
+
+static int basicDamage(int min, int max) {
+  int dmg = min + (int)(rand() * (max - min + 1.0) / (1.0 + RAND_MAX));
+  return dmg;
+}
+
+static bool isCritical(double odds) {
+  return (odds >= ((double)rand() / RAND_MAX));
+}
+
+static void attack_with_dagger(Creature* a, Creature* b) {
+  const double odds = 0.30;
+  const int rate = 2;
+
+  printf("%sはダガーを一閃した！", a->name);
+  int damage = basicDamage(a->minAtk, a->maxAtk) * rate;
+  if (isCritical(odds)) {
+    printf("クリティカルヒット！！！");
+    damage *= rate;
+  }
+  b->hp -= damage;
+  printf("%sに%dのダメージ！\n", b->name, damage);
+}
+
+static struct attacker attacker_with_dagger = {.attack = attack_with_dagger};
+
+void Player_equip_dagger(void) {
+  Creature* p = &player.base;
+  p->attack = &attacker_with_dagger;
 }

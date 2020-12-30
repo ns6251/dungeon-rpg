@@ -6,19 +6,17 @@
 #ifndef _BATTLE_H_
 #define _BATTLE_H_
 
+#include "creature.h"
+
 typedef enum { Lose = -1, Winp, MidBoss, Boss, EnemyTypeLength } EnemyType;
 
 typedef struct {
+  Creature base;
   EnemyType type;
-  char name[256];
-  int hp;
-  int maxHp;
-  int minAtk;
-  int maxAtk;
 } Enemy;
 
-Enemy* initEnemies();
+Enemy* initEnemies(void);
 
-EnemyType battle();
+EnemyType battle(Enemy* e);
 
 #endif

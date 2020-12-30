@@ -12,7 +12,7 @@
  * @return Item* 各アイテムの情報を含んだ配列の先頭ポインタ
  * @author
  */
-Item* initItems() {
+Item* initItems(void) {
   Item* items = (Item*)calloc(ItemTypeLen, sizeof(Item));
 
   items[Potion].type = Potion;
@@ -32,17 +32,4 @@ Item* initItems() {
   items[LJewel].score = 1000;
 
   return items;
-}
-
-/**
- * @brief Daggerを作成する
- * @return 作成したDaggerのポインタ
- * @author C0117230
- */
-Dagger* initDagger() {
-  Dagger* dagger = (Dagger*)calloc(1, sizeof(Dagger));
-  strcpy(dagger->name, "ダガー");
-  dagger->criticalOdds = 0.3;
-  dagger->rate = 2;
-  return dagger;
 }

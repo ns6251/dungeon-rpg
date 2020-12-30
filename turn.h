@@ -6,7 +6,7 @@
 #ifndef _TURN_H_
 #define _TURN_H_
 
-void addTurn();
-int getTurn();
+void addTurn(void);
+int getTurn(void);
 
 #endif
